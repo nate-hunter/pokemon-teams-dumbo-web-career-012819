@@ -28,13 +28,46 @@ fetch(TRAINERS_URL)
           `<li>
             ${pokemon.nickname} (${pokemon.species})
             <button class="release" data-pokemon-id="140">Release</button>
-          </li>
-        `
+          </li>`
       })
     })
   })
 
+// Add Pokemon:
+// let formData = {
+//   trainer_id = `${}`
+// }
 
+// let configObj = {
+//   method: "POST";
+//   body: formData;
+// }
+
+mainTag.addEventListener('click', (event) => {
+  if(event.target.textContent === "Add Pokemon") {
+    addPokemonFetch(event)
+    .then(pokemonObj => {
+      event.target.parentElement.innerHTML +=
+        `<li>
+          ${pokemonObj.nickname} (${pokemonObj.species})
+          <button class="release" data-pokemon-id="140">Release</button>
+        </li>`
+    })
+  }
+})
+
+
+function addPokemonFetch(event){
+  return fetch(POKEMONS_URL, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({trainer_id: event.target.dataset.trainerId})
+  })
+  .then(response => response.json())
+}
 
 
 
